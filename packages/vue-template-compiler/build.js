@@ -2737,6 +2737,12 @@ function baseCompile (
   options
 ) {
   var ast = parse(template.trim(), options);
+
+  if( options.injectPathTemplateRootElement ){
+    ast.attrs = ast.attrs || [];
+    ast.attrs.push({'name':'___comp_path', value:JSON.stringify(options.__component_path)});
+  }
+
   optimize(ast, options);
   var code = generate(ast, options);
   return {
